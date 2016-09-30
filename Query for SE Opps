@@ -1,0 +1,12 @@
+SELECT View_Person.name AS SE, View_Opportunity.correlatedCustomText2 AS Pipeline_Rollup,
+BH_jobAssignment.jobPostingID AS Opp#, BH_jobOpportunity.status AS Stage, BH_jobOpportunity.customTextBlock3 AS Product,
+BH_jobOpportunity.dealValue AS Total, BH_jobOpportunity.dealValue*BH_jobOpportunity.winProbabilityPercent AS Weighted_Total,
+BH_clientcorporation.name AS Company, BH_jobOpportunity.numOpenings AS #_Seats, View_Opportunity.expectedCloseDate AS Expected_Close,
+BH_jobOpportunity.dateClosed AS Actual_Close
+FROM BH_JobOpportunity with (NOLOCK)
+   JOIN BH_jobAssignment with (NOLOCK) ON BH_jobAssignment.jobpostingID = BH_jobOpportunity.jobPostingID 
+   JOIN View_Person with (NOLOCK) ON View_Person.userID = BH_jobAssignment.userID
+   JOIN BH_ClientCorporation ON BH_jobOpportunity.clientCorporationID = BH_ClientCorporation.ClientCorporationID
+   JOIN View_Opportunity ON BH_jobOpportunity.jobPostingID = View_Opportunity.jobPostingID
+
+WHERE View_Person.usertypeID = '41042' AND privatelabelID = '14276';
